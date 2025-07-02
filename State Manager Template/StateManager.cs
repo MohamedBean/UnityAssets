@@ -7,8 +7,8 @@ using UnityEngine;
 //----------------------------------------------------------------------------
 public class StateManager : MonoBehaviour
 {
-    public State currentState;
-    public ExampleState1 exampleState = new ExampleState1();
+    private State currentState;
+    private ExampleState1 exampleState = new ExampleState1();
 
     void Start()
     {
@@ -26,5 +26,10 @@ public class StateManager : MonoBehaviour
         currentState.ExitState(this);
         currentState = state;
         currentState.EnterState(this);
+    }
+
+    public void GetState()
+    {
+        return currentState;
     }
 }
