@@ -7,13 +7,16 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Collider2D))]
 public class PlayerMovement : MonoBehaviour
 {
+    // Components required for the script to work
     [HideInInspector] public Rigidbody2D rb;
-    [HideInInspector] public new Collider2D collider;
+    [HideInInspector] public Collider2D collider;
+    // Inspector variables that control the different player movements
     public float movementSpeed = 5f;
-    public float jumpPower = 8f;
+    public float jumpPower = 15f;
     public float dashSpeed = 15f;
-    public float dashCoolDown = 0.3f;
-    public int maxNumberOfJumps = 1;
+    public float dashCoolDown = 0.1f;
+    public int maxNumberOfJumps = 2;
+    // Variables that are not meant to be assigned but are used in the logic of the game
     [HideInInspector] public bool isDashing = false;
     [HideInInspector] public bool isFacingRight = true;
     [HideInInspector] public int currentNumberOfJumps = 0;
@@ -71,12 +74,13 @@ public class PlayerMovement : MonoBehaviour
 
     public IEnumerator Dash()
     {
+        float originalGravityScale = rb.gravityScale;
         isDashing = true;
         rb.linearVelocityX = isFacingRight ? dashSpeed : -dashSpeed;
         rb.linearVelocityY = 0;
         rb.gravityScale = 0;
         yield return new WaitForSecondsRealtime(0.15f);
-        rb.gravityScale = 1;
+        rb.gravityScale = originalGravityScale;
         rb.linearVelocityX = 0;
         timeAfterLastDash = 0;
         isDashing = false;
